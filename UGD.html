@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD Vue JS Tebak Angka</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+    <style>
+        .footerku{
+            margin-left : 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            margin-top: 210px;
+            background-color: pink;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            text-align: center;
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    <div style="background-color :pink;">
+        <div class="text-center mb-4 pt-4 pb-4">
+            <h3>Game Tebak Angka 1-10</h3>                    
+        </div>
+    </div>
+        <p class="text-center">
+            1 2 3 4 5 6 7 8 9 10
+        </p>
+
+        <div class="container" style="margin-left: 35%;">
+        <fieldset>
+            <legend style="margin-left: 10%;" >Input Your Number</legend>
+                <table cellspacing="4" cellpadding="4">
+                    <tr>
+                        <td> <label for="number"> Number </label></td>
+                        <td> <input type="tel" v-model="number" :disabled="isDisabled" placeholder="Number"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button style="margin-left: 50%;" class="btnRound btn-block" :disabled="isDisabled" type="submit" @click="btnTebak">Tebak</button>
+                        </td>
+                    </tr>    
+                    <tr>
+                        <td>
+                            <p>Kesempatan : {{ kesempatan }}</p>
+                            <p>{{ angka }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button style="margin-left: 50%;" class="btnRound btn-block" type="submit" @click="btnCoba" v-if="hasil == 'cobalagi'">Coba Lagi</button>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td>
+                            <button style="margin-left: 50%;" class="btnRound btn-block" type="submit" @click="btnMain" v-if="hasil== 'habis' || hasil=='benar'">Reload Permainan</button>
+                        </td>
+                    </tr> 
+                </table>
+        </fieldset>
+        <div v-show="output">
+            <div v-if="hasil == 'cobalagi'">
+                Tebakan salah!
+            </div>
+            <div v-else-if="hasil == 'habis'">
+                Kesempatan habis! Jawabannya : {{ angka }}
+            </div>
+            <div v-else-if="hasil == 'benar'">
+                selamat anda benar! Jawabannya : {{ angka }}
+            </div>
+        </div>
+
+
+        
+
+        <!-- <footer class="text-center mt-1" style="bottom: 10; width: 30%; position: absolute; background-color: pink;">
+            {{joseva.nama}} | {{joseva.npm}} | {{joseva.kelas}}
+        </footer> -->
+    </div> 
+
+    <div class="footerku">
+        <h5>{{joseva.nama}} | {{joseva.npm}} | {{joseva.kelas}}</h5>
+    </div>
+
+    </div> 
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            angka: Math.floor(Math.random()*10)+1,
+            number: null,
+            kesempatan: 3,            
+            output: null,
+            hasil: null,
+            isDisabled:false,
+            joseva: {
+                nama:'Joseva Handika',
+                npm: '180709963',
+                kelas: 'E',
+            },
+        },
+        methods: {
+           btnTebak(){
+            this.output = 1;
+            this.isDisabled = true;
+            if(this.number == this.angka){                
+                this.hasil = 'benar';                
+            }else {                
+                this.kesempatan--;
+                if(this.kesempatan==0){
+                    this.hasil = 'habis';                                       
+                }else {
+                    this.hasil = 'cobalagi';
+                }
+            }       
+           },
+           btnCoba(){
+                this.isDisabled = false;
+                this.output = 0;
+                this.hasil=null;             
+           },
+           btnMain(){
+               location.reload();
+           }
+        },
+    })
+</script>
+</html>
