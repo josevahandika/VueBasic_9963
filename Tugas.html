@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Vue JS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+    <style>
+        .footerku{
+            margin-left : 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            margin-top: 60px;
+            background-color: pink;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            text-align: center;
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    <div style="background-color :pink;">
+        
+        <div class="text-center mb-4 pt-4 pb-4">
+            <h3>To Do List</h3>                    
+        </div>
+    </div>
+        <p class="text-center" style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+           Mari Mendata Tugasmu!
+        </p>
+
+        <div v-for="(todolist,index) in todolists" :key="index">
+            <div class="card my-2">
+                <div class="card-body">
+                    <span class="float-right"><button class="btn btn-sm" @click="deleted(index)">X</button></span>
+                    <span v-if="todolist.priority == 'Penting'" class="badge badge-light text-danger">{{ todolist.priority }}</span>
+                    <span v-else-if="todolist.priority == 'Biasa'" class="badge badge-light text-primary">{{ todolist.priority }}</span>
+                    <span v-else-if="todolist.priority == 'Tidak Penting'" class="badge badge-light text-success">{{ todolist.priority }}</span>
+                    <br>
+                    <h5>{{ todolist.tugas }}</h5>
+                    <p>{{ todolist.catatan }}</p>
+                </div>
+            </div>
+        </div>
+
+    <div class="card p-4" style="width: 1000px; left: 160px; border-color: aquamarine; background-color: burlywood;">    
+        <div class="container" style="margin-left: 35%;">
+                    <tr>
+                        <td> <label for="tugas"> Nama Tugasmu </label></td>
+                        <br/>
+                        <input type="text"  class="form-control" id="tugas" placeholder="Tulis tugasmu disini..." style="width: 300px; height: 40px;">
+                    </tr>
+                    <div>
+                    <tr>
+                        <td> <label for="Priority"> Penting nggak? </label></td>
+                        <br/>
+                            <select name="priority"  id="priority" class="form-control"style="width: 300px; height: 40px;">
+                                <option value="Penting"> Penting </option>
+                                <option value="Biasa"> Biasa </option>
+                                <option value="Tidak Penting"> Tidak Penting </option>
+                            </select>
+                    </tr>
+                    </div>
+                    <div>    
+                    <tr>
+                        <label for="catatan">Tulis Catatanmu Ya</label>
+                        <textarea class="form-control" id="catatan" style="width: 300px; height: 100px;" placeholder="Tulis catatan disini..."></textarea>
+                    </tr>
+                    </div>
+                    <div>
+                        <button class="btn btn-dark" @click="cancel">Cancel</button>
+                        <button class="btn btn-pink" @click="save">Save</button>
+                    </div>
+
+        <!-- <footer class="text-center mt-1" style="bottom: 10; width: 30%; position: absolute; background-color: pink;">
+            {{joseva.nama}} | {{joseva.npm}} | {{joseva.kelas}}
+        </footer> -->
+    </div> 
+    </div>
+
+    <div class="footerku">
+        <h5>{{joseva.nama}} | {{joseva.npm}} | {{joseva.kelas}}</h5>
+    </div>
+
+</div> 
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            todolists:[
+                
+            ],
+            joseva: {
+                nama:'Joseva Handika',
+                npm: '180709963',
+                kelas: 'E',
+            },
+        },
+        methods: {
+            save() {
+                
+                let tugas = document.getElementById('tugas');
+                let priority = document.getElementById('priority');
+                let catatan = document.getElementById('catatan');
+
+                let todolist = {
+                    tugas : tugas.value,
+                    priority : priority.value,
+                    catatan : catatan.value,
+                }
+                document.getElementById('tugas').value="";
+                document.getElementById('priority').value="";
+                document.getElementById('catatan').value="";
+                this.todolists.push(todolist);
+                console.log(this.todolists);
+            },
+            cancel(){
+                document.getElementById('tugas').value="";
+                document.getElementById('priority').value="";
+                document.getElementById('catatan').value="";
+            },
+            deleted(index){
+                this.todolists.splice(index,1);
+            },
+        },
+    });
+</script>
+</html>
